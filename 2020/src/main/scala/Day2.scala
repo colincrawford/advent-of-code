@@ -13,7 +13,10 @@ object Day2 {
   }
 
   def readInput(): Array[PasswordSpec] = {
-    Source.fromResource("day2-input.txt").getLines().toArray.map(parseLine)
+    val input = Source.fromResource("day2-input.txt")
+    val inputs = input.getLines().toArray.map(parseLine)
+    input.close()
+    inputs
   }
 
   def parseLine(line: String): PasswordSpec = {

@@ -12,7 +12,10 @@ object Day1 {
   }
 
   def readInput(): Array[Int] = {
-    Source.fromResource("day1-input.txt").getLines().toArray.map(Integer.parseInt(_))
+    val input = Source.fromResource("day1-input.txt")
+    val inputs = input.getLines().toArray.map(Integer.parseInt(_))
+    input.close()
+    inputs
   }
 
   def part1(inputs: Array[Int], targetSum: Int): Unit = {
