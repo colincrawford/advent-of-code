@@ -1,6 +1,5 @@
 package colinlcrawford.adventofcode
 
-import scala.io.Source
 import util.control.Breaks._
 
 object Day1 {
@@ -12,10 +11,7 @@ object Day1 {
   }
 
   def readInput(): Array[Int] = {
-    val input = Source.fromResource("day1-input.txt")
-    val inputs = input.getLines().toArray.map(Integer.parseInt(_))
-    input.close()
-    inputs
+    Utils.readInputFile("day1-input.txt").map(Integer.parseInt(_))
   }
 
   def part1(inputs: Array[Int], targetSum: Int): Unit = {

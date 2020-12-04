@@ -1,6 +1,5 @@
 package colinlcrawford.adventofcode
 
-import scala.io.Source
 import util.control.Breaks._
 
 case class PasswordSpec(num1: Int, num2: Int, letter: Char, candidatePass: String)
@@ -13,10 +12,7 @@ object Day2 {
   }
 
   def readInput(): Array[PasswordSpec] = {
-    val input = Source.fromResource("day2-input.txt")
-    val inputs = input.getLines().toArray.map(parseLine)
-    input.close()
-    inputs
+    Utils.readInputFile("day2-input.txt").map(parseLine)
   }
 
   def parseLine(line: String): PasswordSpec = {

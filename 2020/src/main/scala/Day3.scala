@@ -1,7 +1,5 @@
 package colinlcrawford.adventofcode
 
-import scala.io.Source
-
 case class Rate(x: Int, y: Int)
 case class Position(x: Int, y: Int)
 case class MoveResult(hitTree: Boolean, newPosition: Position)
@@ -30,10 +28,7 @@ object Day3 {
   }
 
   def readInput(): TreeGrid = {
-    val input = Source.fromResource("day3-input.txt")
-    val inputs = input.getLines().toArray
-    input.close()
-    new TreeGrid(inputs)
+    new TreeGrid(Utils.readInputFile("day3-input.txt"))
   }
 
   def part1(input: TreeGrid) = {
