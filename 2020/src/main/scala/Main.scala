@@ -6,4 +6,5 @@ object Main extends App {
   Day3.run()
   Day4.run()
   Day5.run()
+  Day6.run()
 }
