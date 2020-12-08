@@ -79,19 +79,10 @@ object Day4 {
   }
 
   def groupPassportInfo(input: Array[String]): List[String] = {
-    var passports = List[String]()
-    var currentPassport = ""
-    for (line <- input) {
-      if (line == "") {
-        passports = currentPassport :: passports
-        currentPassport = ""
-      } else if (currentPassport != "") {
-        currentPassport += (" " + line)
-      } else {
-        currentPassport += line
-      }
-    }
-
-    if (currentPassport != "") currentPassport :: passports else passports
+    input.foldRight(List[String]())({
+      case ("", acc) => "" :: acc
+      case (line, Nil) => line :: Nil
+      case (line, h :: t) => (h + " " + line) :: t
+    })
   }
 }

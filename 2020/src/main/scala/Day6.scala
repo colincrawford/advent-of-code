@@ -24,18 +24,11 @@ object Day6 {
   }
 
   def parseInput(input: Array[String]): List[GroupAnswers] = {
-    var groupAnswers = List[GroupAnswers]()
-    var currentGroup = List[Set[Char]]()
-    for (line <- input) {
-      if (line == "") {
-        groupAnswers = currentGroup :: groupAnswers
-        currentGroup = List[Set[Char]]()
-      } else {
-        currentGroup = line.toSet :: currentGroup
-      }
-    }
-    if (!currentGroup.isEmpty) groupAnswers = currentGroup :: groupAnswers
-    groupAnswers
+    input.foldRight(List[GroupAnswers]())({
+      case ("", acc) => List[Set[Char]]() :: acc
+      case (line, Nil) => List(line.toSet) :: Nil
+      case (line, h :: t) => (line.toSet :: h) :: t
+    })
   }
 }
 
