@@ -1,7 +1,5 @@
 package colinlcrawford.adventofcode
 
-import util.control.Breaks._
-
 object Day1 {
   def run(): Unit = {
     val targetSum = 2020

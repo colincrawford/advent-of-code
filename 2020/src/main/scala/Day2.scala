@@ -1,7 +1,5 @@
 package colinlcrawford.adventofcode
 
-import util.control.Breaks._
-
 case class PasswordSpec(num1: Int, num2: Int, letter: Char, candidatePass: String)
 
 object Day2 {
