@@ -31,28 +31,24 @@ class Program(val instructions: Array[Instruction]) {
   def isFinished(): Boolean = programCounter == instructions.length
 }
 
-object Day8 {
-  def run(): Unit = {
-    val input = readInput().map(parseInstruction)
-    part1(input)
-    part2(input)
+object Day8 extends AOCDay {
+  def dayNum(): Int = 8
+
+  def part1(input: Array[String]): Option[String] = {
+    val instructions = input.map(parseInstruction)
+    val acc = new Program(instructions).runUntilRepeatingInstrOrFinishing().acc
+    Some(s"$acc")
   }
 
-  def readInput(): Array[String] = Utils.readInputFile("day8-input.txt")
-
-  def part1(input: Array[Instruction]): Unit = {
-    val acc = new Program(input).runUntilRepeatingInstrOrFinishing().acc
-    Utils.printAnswer(8, 1, Some(acc))
-  }
-
-  def part2(input: Array[Instruction]): Unit = {
+  def part2(input: Array[String]): Option[String] = {
+    val instructions = input.map(parseInstruction)
     var ans: Option[Int] = None
-    input.zipWithIndex.find({
+    instructions.zipWithIndex.find({
       case (instr, inx) => {
         val prog = instr match {
           case Acc(amt) => None
-          case Nop(amt) => checkForFinishingProgram(input, inx, Jmp(amt))
-          case Jmp(amt) => checkForFinishingProgram(input, inx, Nop(amt))
+          case Nop(amt) => checkForFinishingProgram(instructions, inx, Jmp(amt))
+          case Jmp(amt) => checkForFinishingProgram(instructions, inx, Nop(amt))
         }
         prog match {
           case None => false
@@ -63,7 +59,7 @@ object Day8 {
         }
       }
     })
-    Utils.printAnswer(8, 2, ans)
+    ans.map(_.toString)
   }
 
   def checkForFinishingProgram(instructions: Array[Instruction], inx: Int, to: Instruction): Option[Program] = {

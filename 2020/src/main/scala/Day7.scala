@@ -5,27 +5,20 @@ import scala.collection.mutable.{Queue, HashMap}
 case class RuleEdge(color: String, weight: Int)
 case class RuleNode(color: String, edges: List[RuleEdge])
 
-object Day7 {
+object Day7 extends AOCDay {
+  def dayNum(): Int = 7
+
   type RuleGraph = Map[String, List[RuleEdge]]
 
-  def run(): Unit = {
-    val input = readInput()
-    part1(input)
-    part2(input)
+  def part1(input: Array[String]): Option[String] = {
+    val ans = findAllThatCanHold("shiny gold", parseInput(input)).size
+    Some(s"$ans")
   }
 
-  def readInput(): RuleGraph = {
-    parseInput(Utils.readInputFile("day7-input.txt"))
-  }
-
-  def part1(input: RuleGraph): Unit = {
-    Utils.printAnswer(7, 1, Some(findAllThatCanHold("shiny gold", input).size))
-  }
-
-  def part2(input: RuleGraph): Unit = {
+  def part2(input: Array[String]): Option[String] = {
     // subtract by 1 not to count the shiny gold bag that contains everything
-    val ans = findBagsNeededWithin("shiny gold", input, HashMap[String, Int]()) - 1
-    Utils.printAnswer(7, 2, Some(ans))
+    val ans = findBagsNeededWithin("shiny gold", parseInput(input), HashMap[String, Int]()) - 1
+    Some(s"$ans")
   }
 
   def findBagsNeededWithin(color: String, ruleGraph: RuleGraph, cache: HashMap[String, Int]): Int = {
@@ -65,9 +58,7 @@ object Day7 {
     })
   }
 
-  def parseInput(input: Array[String]): RuleGraph = {
-    input.map(parseRule).map(rule => rule.color -> rule.edges).toMap
-  }
+  def parseInput(input: Array[String]): RuleGraph = input.map(parseRule).map(rule => rule.color -> rule.edges).toMap
 
   val colorSpecSep = " bags contain "
   // ex: "posh crimson bags contain 2 mirrored tan bags, 1 faded red bag, 1 striped gray bag."

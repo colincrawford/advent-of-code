@@ -10,9 +10,7 @@ class TreeGrid(val rows: Array[String]) {
     return MoveResult(locationIsTree(newPosition), newPosition)
   }
 
-  def canMove(position: Position, rate: Rate): Boolean = {
-    (position.y + rate.y) < rows.size
-  }
+  def canMove(position: Position, rate: Rate): Boolean = (position.y + rate.y) < rows.size
 
   def locationIsTree(position: Position): Boolean = {
     val row = rows(position.y)
@@ -20,25 +18,18 @@ class TreeGrid(val rows: Array[String]) {
   }
 }
 
-object Day3 {
-  def run(): Unit = {
-    val input = readInput()
-    part1(input)
-    part2(input)
+object Day3 extends AOCDay {
+  def dayNum(): Int = 3
+
+  def part1(input: Array[String]) = {
+    val ans = countTreesHit(new TreeGrid(input), Rate(3, 1))
+    Some(s"$ans")
   }
 
-  def readInput(): TreeGrid = {
-    new TreeGrid(Utils.readInputFile("day3-input.txt"))
-  }
-
-  def part1(input: TreeGrid) = {
-    Utils.printAnswer(3, 1, Some(countTreesHit(input, Rate(3, 1))))
-  }
-
-  def part2(input: TreeGrid) = {
+  def part2(input: Array[String]) = {
     val rates = List(Rate(1, 1), Rate(3, 1), Rate(5, 1), Rate(7, 1), Rate(1, 2))
-    val ans = rates.map(countTreesHit(input, _)).reduce((a, b) => a * b)
-    Utils.printAnswer(3, 2, Some(ans))
+    val ans = rates.map(countTreesHit(new TreeGrid(input), _)).reduce((a, b) => a * b)
+    Some(s"$ans")
   }
 
   def countTreesHit(grid: TreeGrid, rate: Rate): Int = {
@@ -46,9 +37,7 @@ object Day3 {
     var position = Position(0, 0)
     while (grid.canMove(position, rate)) {
       val result = grid.move(position, rate)
-      if (result.hitTree) {
-        treesHit += 1
-      }
+      if (result.hitTree) treesHit += 1
       position = result.newPosition
     }
     treesHit

@@ -6,33 +6,28 @@ sealed trait Direction
 case object Upper extends Direction
 case object Lower extends Direction
 
-object Day5 {
-  def run(): Unit = {
-    val seatScores = readInput().map(getSeat).map(getScore)
-    part1(seatScores)
-    part2(seatScores)
+object Day5 extends AOCDay {
+  def dayNum(): Int = 5
+
+  def part1(input: Array[String]): Option[String] = {
+    val ans = seatScores(input).max
+    Some(s"$ans")
   }
 
-  def readInput(): Array[String] = {
-    Utils.readInputFile("day5-input.txt")
-  }
-
-  def part1(seatScores: Array[Int]): Unit = Utils.printAnswer(5, 1, Some(seatScores.max))
-
-  def part2(seatScores: Array[Int]): Unit = {
-    val sortedScores = seatScores.sorted
+  def part2(input: Array[String]): Option[String] = {
+    val sortedScores = seatScores(input).sorted
     var prev = sortedScores(0) - 1
     val ans = sortedScores.find(score => {
       val check = score != (prev + 1)
       prev = score
       check
     })
-    Utils.printAnswer(5, 2, ans.map(_ - 1))
+    ans.map(_ - 1).map(_.toString)
   }
 
-  def getSeat(binSpec: String): Seat = {
-    Seat(getRow(binSpec.take(7)), getCol(binSpec.takeRight(3)))
-  }
+  def seatScores(input: Array[String]): Array[Int] = input.map(getSeat).map(getScore)
+
+  def getSeat(binSpec: String): Seat = Seat(getRow(binSpec.take(7)), getCol(binSpec.takeRight(3)))
 
   def getRow(rowSpec: String): Int = getFromSpecRange(rowSpec, 0, 127)
 

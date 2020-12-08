@@ -1,41 +1,28 @@
 package colinlcrawford.adventofcode
 
-object Day1 {
-  def run(): Unit = {
-    val targetSum = 2020
-    val inputs = readInput()
-    part1(inputs, targetSum)
-    part2(inputs, targetSum)
+object Day1 extends AOCDay {
+  def dayNum(): Int = 1
+
+  val targetSum = 2020 
+
+  def part1(input: Array[String]): Option[String] = {
+    val inputs = input.map(Integer.parseInt(_))
+    findTwoSummingTo(targetSum, inputs).map({ case (a, b) => s"${a * b}" })
   }
 
-  def readInput(): Array[Int] = {
-    Utils.readInputFile("day1-input.txt").map(Integer.parseInt(_))
-  }
-
-  def part1(inputs: Array[Int], targetSum: Int): Unit = {
-    val answer = findTwoSummingTo(targetSum, inputs).map({
-      case (a, b) => a * b
-    })
-    Utils.printAnswer(1, 1, answer)
+  def part2(input: Array[String]): Option[String] = {
+    val inputs = input.map(Integer.parseInt(_))
+    findThreeSummingTo(targetSum, inputs).map({ case (a, b, c) => s"${a * b * c}" })
   }
 
   def findTwoSummingTo(target: Int, nums: Array[Int]): Option[(Int, Int)] = {
     var neededNums = Set[Int]()
     for (num <- nums) {
       val neededPartner = target - num
-      neededNums.contains(neededPartner) match {
-        case false => neededNums = neededNums + num
-        case true => return Some(num, neededPartner)
-      }
+      if (neededNums.contains(neededPartner)) return Some(num, neededPartner)
+      else neededNums = neededNums + num
     }
     None
-  }
-
-  def part2(inputs: Array[Int], targetSum: Int): Unit = {
-    val answer = findThreeSummingTo(targetSum, inputs).map({
-      case (a, b, c) => a * b * c
-    })
-    Utils.printAnswer(1, 2, answer)
   }
 
   def findThreeSummingTo(target: Int, nums: Array[Int]): Option[(Int, Int, Int)] = {

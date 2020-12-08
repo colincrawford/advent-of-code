@@ -1,22 +1,24 @@
 package colinlcrawford.adventofcode
 
-object Day6 {
+object Day6 extends AOCDay {
   type GroupAnswers = List[Set[Char]]
+  type GroupAnswerCombiner = (Set[Char], Set[Char]) => Set[Char]
 
-  def run(): Unit = {
-    val input = parseInput(readInput())
-    part1(input)
-    part2(input)
+  def dayNum(): Int = 6
+
+  def part1(input: Array[String]): Option[String] = {
+    val ans = combineAnswersWith(parseInput(input), (_ ++ _))
+    Some(s"$ans")
   }
 
-  def readInput(): Array[String] = Utils.readInputFile("day6-input.txt")
+  def part2(input: Array[String]): Option[String] = {
+    val ans = combineAnswersWith(parseInput(input), (_ & _))
+    Some(s"$ans")
+  }
 
-  def part1(input: List[GroupAnswers]): Unit = Utils.printAnswer(6, 1, Some(combineAnswersWith(input, (_ ++ _))))
-
-  def part2(input: List[GroupAnswers]): Unit = Utils.printAnswer(6, 2, Some(combineAnswersWith(input, (_ & _))))
-
-  def combineAnswersWith(answers: List[GroupAnswers], combiner: (Set[Char], Set[Char]) => Set[Char]): Int =
+  def combineAnswersWith(answers: List[GroupAnswers], combiner: GroupAnswerCombiner): Int = {
     answers.map(_.reduce(combiner)).map(_.size).sum
+  }
 
   def parseInput(input: Array[String]): List[GroupAnswers] = {
     input.foldRight(List[GroupAnswers]())({

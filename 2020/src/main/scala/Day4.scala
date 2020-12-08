@@ -2,18 +2,18 @@ package colinlcrawford.adventofcode
 
 case class Field(name: String, validator: String => Boolean)
 
-object Day4 {
-  def run(): Unit = {
-    val input = readInput()
-    part1(input)
-    part2(input)
+object Day4 extends AOCDay {
+  def dayNum(): Int = 4
+
+  def part1(input: Array[String]): Option[String] = {
+    val ans = groupPassportInfo(input).filter(hasRequiredFields).length
+    Some(s"$ans")
   }
 
-  def readInput(): List[String] = groupPassportInfo(Utils.readInputFile("day4-input.txt"))
-
-  def part1(input: List[String]): Unit = Utils.printAnswer(4, 1, Some(input.filter(hasRequiredFields).length))
-
-  def part2(input: List[String]): Unit = Utils.printAnswer(4, 2, Some(input.filter(hasRequiredFields).filter(hasValidFields).length))
+  def part2(input: Array[String]): Option[String] = {
+    val ans = groupPassportInfo(input).filter(hasRequiredFields).filter(hasValidFields).length
+    Some(s"$ans")
+  }
 
   val requiredFields = List[Field](
     Field("byr", validByr), Field("iyr", validIyr), Field("eyr", validEyr),
