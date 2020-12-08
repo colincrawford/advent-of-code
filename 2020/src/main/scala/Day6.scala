@@ -9,19 +9,14 @@ object Day6 {
     part2(input)
   }
 
-  def readInput(): Array[String] = {
-    Utils.readInputFile("day6-input.txt")
-  }
+  def readInput(): Array[String] = Utils.readInputFile("day6-input.txt")
 
-  def part1(input: List[GroupAnswers]): Unit = {
-    val ans = input.map(_.reduce(_ ++ _)).map(_.size).sum
-    Utils.printAnswer(6, 1, Some(ans))
-  }
+  def part1(input: List[GroupAnswers]): Unit = Utils.printAnswer(6, 1, Some(combineAnswersWith(input, (_ ++ _))))
 
-  def part2(input: List[GroupAnswers]): Unit = {
-    val ans = input.map(_.reduce(_ & _)).map(_.size).sum
-    Utils.printAnswer(6, 2, Some(ans))
-  }
+  def part2(input: List[GroupAnswers]): Unit = Utils.printAnswer(6, 2, Some(combineAnswersWith(input, (_ & _))))
+
+  def combineAnswersWith(answers: List[GroupAnswers], combiner: (Set[Char], Set[Char]) => Set[Char]): Int =
+    answers.map(_.reduce(combiner)).map(_.size).sum
 
   def parseInput(input: Array[String]): List[GroupAnswers] = {
     input.foldRight(List[GroupAnswers]())({
