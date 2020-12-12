@@ -1,4 +1,6 @@
-package colinlcrawford.adventofcode
+package colinlcrawford.adventofcode.day8
+
+import colinlcrawford.adventofcode.{AOCDay}
 
 sealed trait Instruction
 case class Nop(amount: Int) extends Instruction

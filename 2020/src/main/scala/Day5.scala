@@ -1,4 +1,6 @@
-package colinlcrawford.adventofcode
+package colinlcrawford.adventofcode.day5
+
+import colinlcrawford.adventofcode.{AOCDay}
 
 case class Seat(row: Int, col: Int)
 

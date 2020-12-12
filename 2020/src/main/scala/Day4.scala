@@ -1,4 +1,6 @@
-package colinlcrawford.adventofcode
+package colinlcrawford.adventofcode.day4
+
+import colinlcrawford.adventofcode.{AOCDay}
 
 case class Field(name: String, validator: String => Boolean)
 

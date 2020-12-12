@@ -1,4 +1,6 @@
-package colinlcrawford.adventofcode
+package colinlcrawford.adventofcode.day7
+
+import colinlcrawford.adventofcode.{AOCDay}
 
 import scala.collection.mutable.{Queue, HashMap}
 

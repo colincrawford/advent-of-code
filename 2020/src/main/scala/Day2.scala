@@ -1,4 +1,6 @@
-package colinlcrawford.adventofcode
+package colinlcrawford.adventofcode.day2
+
+import colinlcrawford.adventofcode.{AOCDay}
 
 case class PasswordSpec(num1: Int, num2: Int, letter: Char, candidatePass: String)
 

@@ -1,4 +1,6 @@
-package colinlcrawford.adventofcode
+package colinlcrawford.adventofcode.day3
+
+import colinlcrawford.adventofcode.{AOCDay}
 
 case class Rate(x: Int, y: Int)
 case class Position(x: Int, y: Int)

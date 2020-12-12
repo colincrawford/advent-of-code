@@ -1,4 +1,6 @@
-package colinlcrawford.adventofcode
+package colinlcrawford.adventofcode.day9
+
+import colinlcrawford.adventofcode.{AOCDay}
 
 object Day9 extends AOCDay {
   def dayNum(): Int = 9

@@ -1,4 +1,6 @@
-package colinlcrawford.adventofcode
+package colinlcrawford.adventofcode.day6
+
+import colinlcrawford.adventofcode.{AOCDay}
 
 object Day6 extends AOCDay {
   type GroupAnswers = List[Set[Char]]

@@ -1,4 +1,6 @@
-package colinlcrawford.adventofcode
+package colinlcrawford.adventofcode.day11
+
+import colinlcrawford.adventofcode.{AOCDay}
 
 sealed trait Spot
 case object Filled extends Spot
