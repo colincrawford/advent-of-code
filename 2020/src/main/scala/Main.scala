@@ -15,4 +15,5 @@ object Main extends App {
   colinlcrawford.adventofcode.day12.Day12.run()
   colinlcrawford.adventofcode.day13.Day13.run()
   colinlcrawford.adventofcode.day14.Day14.run()
+  colinlcrawford.adventofcode.day15.Day15.run()
 }
