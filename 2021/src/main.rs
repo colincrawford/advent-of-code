@@ -26,8 +26,10 @@ mod day23;
 mod day24;
 mod day25;
 
+const CURRENT_DAY: u32 = 2;
+
 fn get_input(day: u32) -> String {
-    if day > 1 {
+    if day > CURRENT_DAY {
         return "".to_string()
     }
     let file_path = format!("./inputs/day{}.txt", day);
@@ -35,7 +37,7 @@ fn get_input(day: u32) -> String {
 }
 
 fn print_answer(day: u32, ans1: &str, ans2: &str) {
-    if day > 1 {
+    if day > CURRENT_DAY {
         return
     }
     println!("---------------------");
