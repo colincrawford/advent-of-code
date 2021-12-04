@@ -1,88 +1,83 @@
-#[derive(PartialEq)]
-enum MostCommonBit {
-    Zero,
-    One,
-    Tied,
+type InputNumber = u16;
+
+// Our input is a list of binary strings, we'll parse those strings and convert them to numbers
+fn parse_input(input: &str) -> Vec<InputNumber> {
+    input
+        .lines()
+        .map(|line| isize::from_str_radix(line, 2).unwrap() as InputNumber)
+        .collect()
 }
 
-fn parse_input(input: &str) -> Vec<Vec<char>> {
-    input.lines().map(|line| line.chars().collect()).collect()
-}
-
-fn get_most_common_bit(bit_seqs: &Vec<Vec<char>>, inx: usize) -> MostCommonBit {
+fn get_most_common_bit(bit_seqs: &Vec<InputNumber>, bit_seq_len: usize, inx: usize) -> u8 {
     let mut zeros = 0;
     let mut ones = 0;
-    for bit_seq in bit_seqs {
-        match bit_seq[inx] {
-            '0' => zeros += 1,
-            '1' => ones += 1,
-            _ => panic!("Invalid bit char {}", bit_seq[inx])
+    let compare = 1 << (bit_seq_len - inx - 1);
+
+    for number in bit_seqs {
+        if (number & compare) > 0 {
+            ones += 1
+        } else {
+            zeros += 1
         }
     }
-    if zeros == ones { MostCommonBit::Tied }
-    else if ones > zeros { MostCommonBit::One }
-    else { MostCommonBit::Zero }
-}
 
-fn get_most_common_bits(bit_seqs: Vec<Vec<char>>) -> Vec<MostCommonBit> {
-    bit_seqs[0].iter().enumerate().map(|(inx, _)| get_most_common_bit(&bit_seqs, inx)).collect()
-}
-
-fn bits_to_int(bits: &Vec<char>) -> u32 {
-    let mut num = 0;
-    for bit in bits.iter() {
-        num = num << 1;
-        num += if *bit == '1' { 1 } else { 0 }
+    if zeros == ones || ones > zeros {
+        1
+    } else {
+        0
     }
-    num
 }
 
-fn get_rates(most_common_bits: Vec<MostCommonBit>) -> (u32, u32) {
-    let mut gamma = vec![];
-    let mut epsilon = vec![];
-    for bit in most_common_bits.iter() {
-        match bit {
-            MostCommonBit::Zero => {
-                gamma.push('0');
-                epsilon.push('1')
-            },
-            MostCommonBit::One | MostCommonBit::Tied => {
-                gamma.push('1');
-                epsilon.push('0')
-            },
+fn get_power_consumption(bit_seqs: &Vec<InputNumber>, bit_seq_len: usize) -> u32 {
+    let mut gamma = 0;
+    let mut epsilon = 0;
+    for i in 0..bit_seq_len {
+        let most_common_bit = get_most_common_bit(bit_seqs, bit_seq_len, i as usize);
+        gamma = gamma << 1;
+        epsilon = epsilon << 1;
+        if most_common_bit == 1 {
+            gamma += 1
+        } else {
+            epsilon += 1
         }
     }
-    (bits_to_int(&gamma), bits_to_int(&epsilon))
+    gamma * epsilon
 }
 
 pub fn day3_part1(input: &str) -> String {
+    let bit_seq_len = input.lines().next().expect("No input lines").len();
     let bit_seqs = parse_input(input);
-    let most_common_bits = get_most_common_bits(bit_seqs);
-    let (gamma, epsilon) = get_rates(most_common_bits);
-    format!("{}", gamma * epsilon)
+    format!("{}", get_power_consumption(&bit_seqs, bit_seq_len))
 }
 
-fn get_rating(bit_seqs: &Vec<Vec<char>>, get_char_to_match: impl Fn(MostCommonBit) -> char) -> u32 {
-    let mut valid_seqs: Vec<Vec<char>> = bit_seqs.iter().map(|bits| bits.clone()).collect();
-    let mut inx = 0;
-    while valid_seqs.len() > 1 {
-        let bit_to_match = get_char_to_match(get_most_common_bit(&valid_seqs, inx));
-        valid_seqs = valid_seqs.iter()
-            .filter(|seq| seq[inx] == bit_to_match)
-            .map(|seq| seq.clone())
+fn get_rating(bit_seqs: &Vec<InputNumber>, bit_seq_len: usize, take_most_common: bool) -> u32 {
+    let mut valid_seqs = bit_seqs.clone();
+    for i in 0..bit_seq_len {
+        let most_common_bit = get_most_common_bit(&valid_seqs, bit_seq_len, i);
+        let one_bit_at_inx = 1 << (bit_seq_len - i - 1);
+        valid_seqs = valid_seqs
+            .into_iter()
+            .filter(|number| {
+                if (take_most_common && most_common_bit == 1)
+                    || (!take_most_common && most_common_bit == 0)
+                {
+                    (number & one_bit_at_inx) > 0
+                } else {
+                    (number & one_bit_at_inx) == 0
+                }
+            })
             .collect();
-        inx += 1;
+        if valid_seqs.len() == 1 {
+            break;
+        }
     }
-    bits_to_int(&valid_seqs[0])
+    valid_seqs[0] as u32
 }
 
 pub fn day3_part2(input: &str) -> String {
+    let bit_seq_len = input.lines().next().expect("No input lines").len();
     let bit_seqs = parse_input(input);
-    let oxygen_generator_rating = get_rating(&bit_seqs, |most_common_bit| {
-        match most_common_bit { MostCommonBit::Zero => '0', _ => '1' }
-    });
-    let co2_scrubber_rating = get_rating(&bit_seqs, |most_common_bit| {
-        match most_common_bit { MostCommonBit::Zero => '1', _ => '0' }
-    });
+    let oxygen_generator_rating = get_rating(&bit_seqs, bit_seq_len, true);
+    let co2_scrubber_rating = get_rating(&bit_seqs, bit_seq_len, false);
     format!("{}", oxygen_generator_rating * co2_scrubber_rating)
 }
