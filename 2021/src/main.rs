@@ -26,7 +26,7 @@ mod day23;
 mod day24;
 mod day25;
 
-const CURRENT_DAY: u32 = 8;
+const CURRENT_DAY: u32 = 9;
 
 fn get_input(day: u32) -> String {
     if day > CURRENT_DAY {
