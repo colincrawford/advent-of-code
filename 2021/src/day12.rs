@@ -65,10 +65,10 @@ fn parse_input(input: &str) -> Graph {
     graph
 }
 
-fn traverse(
-    graph: &Graph,
+fn traverse<'a>(
+    graph: &'a Graph,
     current_vertex: &str,
-    path: &mut HashSet<String>,
+    path: &mut HashSet<&'a str>,
     has_visited_small_cave_twice: bool,
 ) -> u32 {
     if current_vertex == "end" {
@@ -82,8 +82,8 @@ fn traverse(
             continue;
         }
 
-        let had_before = path.contains(&edge.name);
-        path.insert(edge.name.clone());
+        let had_before = path.contains(&*edge.name);
+        path.insert(&edge.name);
 
         if edge.is_small() && had_before {
             if has_visited_small_cave_twice {
@@ -95,7 +95,7 @@ fn traverse(
         }
 
         if !had_before {
-            path.remove(&edge.name);
+            path.remove(&*edge.name);
         }
     }
     paths
