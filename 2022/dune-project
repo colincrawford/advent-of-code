@@ -1,0 +1,26 @@
+(lang dune 3.3)
+
+(name aoc_2022)
+
+(generate_opam_files true)
+
+(source
+ (github username/reponame))
+
+(authors "Colin Crawford")
+
+(maintainers "Colin Crawford")
+
+(license NONE)
+
+(documentation https://www.github.com/colincrawford/advent-of-code)
+
+(package
+ (name aoc_2022)
+ (synopsis "AOC 2022")
+ (description "Advent of code solutions for 2022")
+ (depends ocaml dune)
+ (tags
+  ()))
+
+; See the complete stanza docs at https://dune.readthedocs.io/en/stable/dune-files.html#dune-project
