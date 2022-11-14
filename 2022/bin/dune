@@ -1,4 +1,4 @@
 (executable
  (public_name aoc_2022)
  (name main)
- (libraries core))
+ (libraries solutions input_parser core))
