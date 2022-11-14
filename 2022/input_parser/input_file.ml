@@ -23,3 +23,7 @@ let display contents =
   in
   contents |> List.iter ~f:print_line
   
+(* Util for converting puzzle inputs to int grids *)
+let to_int_grid puzzle_input =
+  let map_row = Array.of_list_map ~f:int_of_char in
+  Array.of_list_map ~f:map_row puzzle_input
