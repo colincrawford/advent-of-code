@@ -14,3 +14,8 @@ dune build
 ```
 dune exec -- ./bin/main.exe
 ```
+
+#### To format
+```
+dune fmt
+```
