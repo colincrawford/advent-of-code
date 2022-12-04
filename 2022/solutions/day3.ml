@@ -1,6 +1,5 @@
 open Core
-
-module CharSet = Set.Make(Char)
+module CharSet = Set.Make (Char)
 
 type sack = char list * char list
 
@@ -36,9 +35,9 @@ let char_score chr =
 
 let find_intersection char_lists =
   char_lists
-  |> List.map ~f:(CharSet.of_list)
+  |> List.map ~f:CharSet.of_list
   |> List.reduce ~f:(fun acc s -> CharSet.inter acc s)
-  |> Option.value ~default:(CharSet.empty)
+  |> Option.value ~default:CharSet.empty
   |> Set.to_list
 
 let score_for_items items =
@@ -66,11 +65,11 @@ let part2 input =
     | [ elf1; elf2; elf3 ] -> find_badge elf1 elf2 elf3
     | _ as group -> raise (InvalidElfGroupSize (List.length group))
   in
-  input |> chunks_of_three |> List.map ~f:find_id |> score_for_items
+  input |> chunks_of_threep |> List.map ~f:find_id |> score_for_items
 
 let solve : Day_solution.solver =
  fun input -> { part1 = part1 input; part2 = part2 input }
 
-let%test_unit "Day2 outputs match" =
+let%test_unit "Day3 outputs match" =
   Test_helpers.solutions_match ~day:3 ~solver:solve ~expected_part1:"8109"
     ~expected_part2:"2738"
