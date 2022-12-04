@@ -1,5 +1,7 @@
 open Core
 
+module CharSet = Set.Make(Char)
+
 type sack = char list * char list
 
 exception OddNumberOfItemsInSack
@@ -34,9 +36,9 @@ let char_score chr =
 
 let find_intersection char_lists =
   char_lists
-  |> List.map ~f:(Set.of_list (module Char))
-  |> List.reduce ~f:(fun acc s -> Set.inter acc s)
-  |> Option.value ~default:(Set.empty (module Char))
+  |> List.map ~f:(CharSet.of_list)
+  |> List.reduce ~f:(fun acc s -> CharSet.inter acc s)
+  |> Option.value ~default:(CharSet.empty)
   |> Set.to_list
 
 let score_for_items items =
