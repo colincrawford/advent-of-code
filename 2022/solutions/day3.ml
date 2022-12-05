@@ -65,7 +65,7 @@ let part2 input =
     | [ elf1; elf2; elf3 ] -> find_badge elf1 elf2 elf3
     | _ as group -> raise (InvalidElfGroupSize (List.length group))
   in
-  input |> chunks_of_threep |> List.map ~f:find_id |> score_for_items
+  input |> chunks_of_three |> List.map ~f:find_id |> score_for_items
 
 let solve : Day_solution.solver =
  fun input -> { part1 = part1 input; part2 = part2 input }
